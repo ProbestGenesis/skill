@@ -1,17 +1,18 @@
 import { z } from "zod";
 
+
+
 export const postsSchema = z.object({
   profession: z.object({
     value: z.enum([
+      "Électricien",
+      "Électronicien",
       "Maçon",
       "Charpentier",
-      "Électricien",
       "Coffreur-ferrailleur",
       "Terrassier",
-      "Peintre en bâtiment",
+      "Peintre bâtiment",
       "Poseur de revêtement",
-      "Plâtrier-staffeur",
-      "Poseur de faux plafonds",
       "Décorateur intérieur",
       "Plombier",
       "Frigoriste",
@@ -19,20 +20,17 @@ export const postsSchema = z.object({
       "Technicien domotique",
       "Menuisier (aluminium / bois / PVC)",
       "Soudeur / ferronnier",
-      "Poseur de clôtures / portails",
-      "Paysagiste",
-      "Agent VRD",
+      "Agent de voirie",
     ]),
     label: z.enum([
+      "Électricien",
+      "Électronicien",
       "Maçon",
       "Charpentier",
-      "Électricien",
       "Coffreur-ferrailleur",
       "Terrassier",
-      "Peintre en bâtiment",
+      "Peintre bâtiment",
       "Poseur de revêtement",
-      "Plâtrier-staffeur",
-      "Poseur de faux plafonds",
       "Décorateur intérieur",
       "Plombier",
       "Frigoriste",
@@ -40,17 +38,12 @@ export const postsSchema = z.object({
       "Technicien domotique",
       "Menuisier (aluminium / bois / PVC)",
       "Soudeur / ferronnier",
-      "Poseur de clôtures / portails",
-      "Paysagiste",
-      "Agent VRD",
+      "Agent de voirie",
     ]),
   }),
-  body: z
-    .string()
-    .min(50, {
-      message:
-        "Veuillez saisir au moins 100 caracètre pour décrire vos besoins",
-    }),
+  body: z.string().min(100, {
+    message: "Veuillez saisir au moins 100 caractères pour décrire vos besoins",
+  }),
 });
 
 export const registerForm = z

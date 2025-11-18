@@ -7,19 +7,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = {};
 function index({ }: Props) {
-  const { data:session } = authClient.useSession()
+  const { data: session } = authClient.useSession()
+  const username = session?.user.name
   const router = useRouter();
   if (session && !session.user.phoneNumberVerified) {
     router.push('/(auth)/(register)/opt')
   }
-  return (
-    <SafeAreaView>
-      <View>
-        <Button onPress={() => router.push('/(auth)')}>
-          <Text>Se connecter</Text>
-        </Button>
-      </View>
-    </SafeAreaView>
-  );
+
+  if (session && username && /^\d+$/.test(username)) {
+    router.push('/(auth)/(register)')
+  }
+    return (
+      <SafeAreaView>
+        <View>
+          <Button onPress={() => router.push('/(auth)')}>
+            <Text>Se connecter</Text>
+          </Button>
+        </View>
+      </SafeAreaView>
+    );
 }
 export default index;

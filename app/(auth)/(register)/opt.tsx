@@ -173,15 +173,15 @@ function OptScreen({}: Props) {
               {isLoading ? <ActivityIndicator size={24} color={'white'} /> : <Text>Valider</Text>}
             </Button>
 
-            {isSuccess.status && (
-              <Text
-                className={clsx('font-bold', {
-                  'text-green-5000': !isSuccess.error,
-                  'text-destructive': isSuccess.error,
-                })}>
-                {isSuccess.message}
-              </Text>
-            )}
+            {isSuccess.status && (<View className='flex-row items-center justify-center'>
+                    <Text
+                      className={clsx('font-bold', {
+                        'text-green-500': !isSuccess.error,
+                        'text-destructive': isSuccess.error,
+                      })}>
+                      {isSuccess.message}
+                    </Text>
+                 </View> )}
 
             <View className="flex-row justify-start">
               <Text className="text-xs text-muted-foreground">

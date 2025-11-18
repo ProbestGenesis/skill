@@ -23,6 +23,7 @@ model User {
   sessions            Session[]
   accounts            Account[]
 
+  
   @@unique([phoneNumber])
   @@map("user")
 }
