@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "skill",
-    "slug": "skill",
+    "name": "skillmap",
+    "slug": "skillmap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "skill",
+    "scheme": "skillmap",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -28,7 +28,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [

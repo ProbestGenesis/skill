@@ -1,4 +1,5 @@
 import '@/global.css';
+import { authClient } from '@/lib/auth-client';
 
 import { NAV_THEME } from '@/lib/theme';
 import { ThemeProvider } from '@react-navigation/native';
@@ -14,11 +15,13 @@ export {
 
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
-
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <Stack />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(auth)" />
+       </Stack>
       <PortalHost />
     </ThemeProvider>
   );
