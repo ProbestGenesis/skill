@@ -20,9 +20,95 @@ model User {
   phoneNumberVerified Boolean?
   sessions            Session[]
   accounts            Account[]
+  receivedServices    Service[] @relation(name: "CustomerRelation")
+
+  posts    Post[]
+  role     String    @default("Customer")
+  provider Provider?
+  city     String?
+  district String?
+  location Json?
 
   @@unique([phoneNumber])
   @@map("user")
+}
+
+model Provider {
+  id            String    @id @default(uuid())
+  rate          Float     @default(1)
+  bio           String?
+  address       String?
+  profession    String
+  mission_nb    Int       @default(0)
+  reviews_count Int       @default(0)
+  isAvailable   Boolean   @default(true)
+  availability  String?
+  location      Json?
+  average_price Float?
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  post          Post[]
+  service       Service[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  skills    Skills[]
+
+  @@unique([userId])
+}
+
+model Post {
+  id             String    @id @default(uuid())
+  title          String?
+  body           String
+  profession     String
+  location       Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  providers      Provider? @relation(fields: [providerId], references: [id])
+  providerId     String?   @unique
+  applyProviders String[]  @default([])
+  service        Service?
+  user           User      @relation(fields: [userId], references: [id])
+  userId         String
+  status         String?
+  avarage_price  Float?
+}
+
+model Service {
+  id          String    @id @default(uuid())
+  post        Post?     @relation(fields: [postId], references: [id])
+  postId      String?   @unique
+  title       String?
+  description String
+  price       Float?
+  location    Json?
+  district    String?
+  code        String    @unique @default(nanoid(5))
+  role        String?
+  provider    Provider  @relation(fields: [providerId], references: [id])
+  providerId  String
+  skills      Skills?   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  skillId     String?
+  customer    User      @relation(name: "CustomerRelation", fields: [customerId], references: [id], onDelete: Cascade)
+  customerId  String
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  @@unique([providerId, customerId, code])
+}
+
+model Skills {
+  id            String    @id @default(uuid())
+  provider      Provider  @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  providerId    String
+  service       Service[]
+  title         String
+  description   String
+  average_price Float
 }
 
 model Session {

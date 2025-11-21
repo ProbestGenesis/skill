@@ -1,30 +1,24 @@
-import { PrismaClient } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { prisma } from '@/lib/prisma';
 
 export async function GET(req: Request, { userId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: userId
+        id: userId,
       },
       include: {
         provider: {
-         select: {
-          id: true
-         }
-        }
-      }
-    })
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
 
-     if (!user) {
-      return new Response(
-        JSON.stringify({ message: "porblème d'authentification", stauts: 401 }),
-        { status: 401 }
-      );
+    if (!user) {
+      return new Response(JSON.stringify({ message: "porblème d'authentification", stauts: 401 }), {
+        status: 401,
+      });
     }
     const services = await prisma.service.findMany({
       where: {
@@ -33,8 +27,8 @@ export async function GET(req: Request, { userId }: Record<string, string>) {
       include: {
         provider: {
           include: {
-            user: true
-          }
+            user: true,
+          },
         },
         skills: {
           select: {
@@ -46,16 +40,14 @@ export async function GET(req: Request, { userId }: Record<string, string>) {
       cacheStrategy: {
         swr: 60,
         ttl: 10,
-        tags: ["services"]
+        tags: ['services'],
       },
     });
 
     return new Response(JSON.stringify(services), { status: 200 });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ message: "Une erreur est survenue", stauts: 500 }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ message: 'Une erreur est survenue', stauts: 500 }), {
+      status: 500,
+    });
   }
 }
-

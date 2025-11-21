@@ -1,0 +1,256 @@
+import { Provider, Skills, User } from '@/prisma/generated/prisma';
+import clsx from 'clsx';
+import { View, Text, ScrollView, Pressable } from 'react-native';
+import { UserIcon, Star } from 'lucide-react-native';
+import { Link, useRouter } from 'expo-router';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardFooter,
+  CardDescription,
+  CardTitle,
+} from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  BriefcaseBusiness,
+  Calendar,
+  HandCoins,
+  LogOut,
+  MapPin,
+  MessageCircleQuestion,
+  Pencil,
+  Phone,
+  QrCode,
+  ServerIcon,
+  Settings,
+  UserCheck,
+} from 'lucide-react-native';
+import { profildata } from '@/lib/fetching/profil';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect } from 'react';
+
+type Props = {};
+type ProviderData = Provider & { user: User; skills: Skills[] };
+function Profil({}: Props) {
+  const queryClient = useQueryClient();
+  const { providerId } = useLocalSearchParams();
+  const router = useRouter();
+
+  async function fetchData() {
+    const res = await profildata(providerId);
+    return res;
+  }
+
+  const { data, isLoading } = useQuery<ProviderData>({
+    queryKey: ['profil'],
+    queryFn: fetchData,
+  });
+
+  return (
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View className="flex-1 flex-col gap-6 px-2 pb-6">
+        <View className="">
+          <View className="flex gap-2 py-4">
+            {/* <View className="flex-row items-center justify-between mb-4">
+              <View className="flex-row items-center gap-2">
+                <Text>
+                  {" "}
+                  <UserIcon />{" "}
+                </Text>
+                <Text className="text-lg font-bold">Page de profil </Text>
+              </View>
+            </View>
+*/}
+            <View className="flex-row gap-2">
+              <Link href="/addProfilPicture">
+                <Avatar alt="user profil" className="h-24 w-24">
+                  <AvatarImage
+                    //@ts-ignore
+                    source={{ uri: data?.user?.image }}
+                  />
+                  <AvatarFallback>
+                    <Text>Bn </Text>
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+              <View className="flex-col gap-0.5">
+                <Text className="text-xl font-bold">{data?.user?.name}</Text>
+
+                {isLoading ? (
+                  <View className="flex-col gap-1">
+                    <Skeleton className="h-4 w-40 rounded-full" />
+                    <Skeleton className="h-4 w-40 rounded-full" />
+                  </View>
+                ) : (
+                  <View className="flex-col gap-1">
+                    {' '}
+                    <Text className="text-primary">
+                      {data?.profession || 'Profession non renseignée'}
+                    </Text>
+                    {data && (
+                      <Badge variant="secondary">
+                        <View className="flex-row gap-2">
+                          <Star fill="yellow" stroke={'yellow'} size="18" />
+                          <Text
+                            className={clsx({
+                              'text-green-600': data?.rate > 3,
+                              'text-red-700': data?.rate < 3,
+                            })}>
+                            {data.rate}
+                          </Text>
+                        </View>
+                      </Badge>
+                    )}
+                  </View>
+                )}
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {isLoading ? (
+          <Skeleton className="h-32 w-full rounded-lg" />
+        ) : (
+          <Card>
+            <CardHeader className="">
+              <CardTitle className="font-bold">
+                <Text>Informations sur le prestataire</Text>
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              <View className="flex-col gap-2">
+                <View className="flex-col items-center justify-center">
+                  <Text className="font-bold tracking-widest">Bio</Text>
+                  {data?.bio ? (
+                    <Text className="text-center text-sm leading-snug">{data?.bio}</Text>
+                  ) : (
+                    <Text className="text-muted">non renseignée</Text>
+                  )}
+                </View>
+
+                <View className="flex-row items-center justify-start gap-2">
+                  <MapPin />
+
+                  <View className="flex-row gap-1">
+                    <Text>Ville et quartier: </Text>
+                    {data?.user?.city || data?.user?.district ? (
+                      <View className="flex-row gap-1">
+                        {' '}
+                        <Text>{data?.user?.city} </Text>
+                        <Text>|</Text>
+                        <Text> {data?.user?.district}</Text>{' '}
+                      </View>
+                    ) : (
+                      <Text className="text-muted">non renseignée</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View className="flex-row items-center justify-start gap-2">
+                  <Phone />
+
+                  <View className="flex-row gap-1">
+                    <Text>Numéro de télephone: </Text>
+
+                    {data?.user?.phoneNumber ? (
+                      <Text>{data?.user?.phoneNumber}</Text>
+                    ) : (
+                      <Text className="text-muted">non renseignée</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View className="flex-row items-center justify-start gap-2">
+                  <BriefcaseBusiness />
+
+                  <View className="flex-row gap-1">
+                    <Text>Profession: </Text>
+
+                    {data?.profession ? (
+                      <Text>{data?.profession}</Text>
+                    ) : (
+                      <Text className="text-muted">non renseignée</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View className="flex-row items-center justify-start gap-2">
+                  <Calendar />
+
+                  <View className="flex-row gap-1">
+                    <Text>Disponibilité: </Text>
+
+                    {data?.availability ? (
+                      <Text>{data?.availability}</Text>
+                    ) : (
+                      <Text className="text-muted">non renseignée</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View className="flex-row items-center justify-start gap-2">
+                  <HandCoins />
+
+                  <View className="flex-row gap-1">
+                    <Text>Prix de base: </Text>
+
+                    {data?.average_price ? (
+                      <Text>{data?.average_price}</Text>
+                    ) : (
+                      <Text className="text-muted">non renseignée</Text>
+                    )}
+
+                    <MessageCircleQuestion />
+                  </View>
+                </View>
+              </View>
+            </CardContent>
+
+            <CardFooter className="flex-row items-end justify-end">
+              <Button
+                className="rounded-full"
+                onPress={() => {
+                  router.push('/editProfil');
+                }}>
+                <Text className="text-white">Modifier</Text>
+              </Button>
+            </CardFooter>
+          </Card>
+        )}
+
+        {data?.skills && data?.skills.length > 0 && (
+          <View className="mt-2 flex-col gap-2">
+            <View>
+              <Text className="text-3xl font-bold">Services</Text>
+            </View>
+            <View className="flex-row flex-wrap gap-2">
+              {data?.skills.map((item: any, idx: number) => (
+                <Badge key={item.id}>
+                  <Pressable
+                    onPress={() => {
+                      router.push({
+                        pathname: '/(tabs)/(home)/(provider)/[providerId]/services/[skillId]',
+                        params: {
+                          providerId: data.id,
+                          skillId: item.id,
+                        },
+                      });
+                    }}>
+                    <Text className="text-xs text-white">{item.title}</Text>
+                  </Pressable>
+                </Badge>
+              ))}
+            </View>
+          </View>
+        )}
+      </View>
+    </ScrollView>
+  );
+}
+export default Profil;

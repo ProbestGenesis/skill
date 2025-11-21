@@ -1,11 +1,6 @@
-import { PrismaClient } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { prisma } from '@/lib/prisma';
 
 export async function PUT(req: Request, { serviceId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
   try {
 
     const getService = await prisma.service.update({

@@ -41,7 +41,7 @@ export const postsSchema = z.object({
       "Agent de voirie",
     ]),
   }),
-  body: z.string().min(100, {
+  body: z.string().min(60, {
     message: "Veuillez saisir au moins 100 caractères pour décrire vos besoins",
   }),
 });

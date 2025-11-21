@@ -1,5 +1,4 @@
-import { PrismaClient, Provider, User } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { prisma } from "@/lib/prisma";
 
 import { createClient, processLock } from '@supabase/supabase-js'
 
@@ -8,9 +7,6 @@ import { createClient, processLock } from '@supabase/supabase-js'
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   )
         
-const prisma = new PrismaClient({
-  datasourceUrl: process.env.DATABASE_URL,
-}).$extends(withAccelerate());
 export async function POST(req: Request, { userId }: Record<string, string>) {
   try {
     const formData = await req.formData();

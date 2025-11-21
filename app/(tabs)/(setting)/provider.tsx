@@ -30,6 +30,7 @@ import { userProviderData } from '@/lib/fetching/user';
 import * as Location from 'expo-location';
 import { profession } from '@/lib/data/professionData';
 import { availability } from '@/lib/data/availability';
+import { usePreciseLocation } from '@/lib/geolocation';
 type Props = {
   onComplete?: () => void;
 };
@@ -43,7 +44,8 @@ export default function BecomeProvider({}: Props) {
     message: string | undefined;
     status: number | null;
   }>({ message: '', status: 201 });
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+
+ /* const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
@@ -60,6 +62,13 @@ export default function BecomeProvider({}: Props) {
 
     getCurrentLocation();
   }, []);
+ */
+  const { location, error: locationError, permissionGranted } = usePreciseLocation()
+  useEffect(() => {
+      if (locationError) {
+        alert(locationError);
+      }
+  }, [locationError, permissionGranted]);
 
   const insets = useSafeAreaInsets();
   const contentInsets = {
@@ -244,7 +253,7 @@ export default function BecomeProvider({}: Props) {
               {success.message && (
                 <Text
                   className={clsx('text-center font-bold', {
-                    'text-primary': success.status === 201,
+                    'text-green-600': success.status === 201,
                     'text-destructive': success.status !== 201,
                   })}>
                   {' '}

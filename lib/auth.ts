@@ -12,7 +12,7 @@ export const auth = betterAuth({
       sendOTP: ({ phoneNumber, code }, request) => {
         // Implement sending OTP code via SMS
       },
-      expiresIn: 60 * 10,
+      expiresIn: 60 * 100,
       otpLength: 4,
       requireVerification: true,
       allowedAttempts: 4
@@ -23,5 +23,6 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    changeEmail: true
   },
 });

@@ -130,7 +130,71 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   phoneNumber: 'phoneNumber',
-  phoneNumberVerified: 'phoneNumberVerified'
+  phoneNumberVerified: 'phoneNumberVerified',
+  role: 'role',
+  city: 'city',
+  district: 'district',
+  location: 'location'
+};
+
+exports.Prisma.ProviderScalarFieldEnum = {
+  id: 'id',
+  rate: 'rate',
+  bio: 'bio',
+  address: 'address',
+  profession: 'profession',
+  mission_nb: 'mission_nb',
+  reviews_count: 'reviews_count',
+  isAvailable: 'isAvailable',
+  availability: 'availability',
+  location: 'location',
+  average_price: 'average_price',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  body: 'body',
+  profession: 'profession',
+  location: 'location',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  providerId: 'providerId',
+  applyProviders: 'applyProviders',
+  userId: 'userId',
+  status: 'status',
+  avarage_price: 'avarage_price'
+};
+
+exports.Prisma.ServiceScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  title: 'title',
+  description: 'description',
+  price: 'price',
+  location: 'location',
+  district: 'district',
+  code: 'code',
+  role: 'role',
+  providerId: 'providerId',
+  skillId: 'skillId',
+  customerId: 'customerId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.SkillsScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  title: 'title',
+  description: 'description',
+  average_price: 'average_price'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -174,9 +238,20 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -187,6 +262,10 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Provider: 'Provider',
+  Post: 'Post',
+  Service: 'Service',
+  Skills: 'Skills',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'

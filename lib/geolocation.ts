@@ -8,7 +8,7 @@ export type LocationData = {
   timestamp: number;
 };
 
-export function usePreciseLocation(pollingInterval = 1000) {
+export function usePreciseLocation(pollingInterval = 1000 * 60 * 10) {
   const [location, setLocation] = useState<LocationData | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [error, setError] = useState<string | null>(null);

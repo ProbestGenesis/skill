@@ -1,11 +1,8 @@
-import { PrismaClient, Provider, User } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { prisma } from "@/lib/prisma";
+import { Provider, User } from "@/prisma/generated/prisma";
 
 type ProviderData = Provider & { user: User };
 export async function GET(req: Request, { userId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
 
   try {
     const post = await prisma.post.findFirst({
@@ -48,11 +45,7 @@ export async function GET(req: Request, { userId }: Record<string, string>) {
 }
 
 export async function POST(req: Request, { userId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
   const { body, title, profession, location } = await req.json();
-  
 
   try{
        const user = await prisma.user.findUnique({

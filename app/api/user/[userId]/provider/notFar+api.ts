@@ -1,13 +1,10 @@
-import { PrismaClient, Provider } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
-import { calculDistance } from "~/lib/calculDistance";
+import { prisma } from "@/lib/prisma";
+import { Provider } from "@/prisma/generated/prisma";
+import { calculDistance } from "@/lib/calculDistance";
 
 export async function GET(req: Request, { userId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
   try {
+    console.log("with userId")
     const url = new URL(req.url);
     const lat = parseFloat(url.searchParams.get("lat") || "0");
     const long = parseFloat(url.searchParams.get("long") || "0");
@@ -42,8 +39,8 @@ export async function GET(req: Request, { userId }: Record<string, string>) {
     ) {
       return providers
         .map((provider) => {
-          const latA = provider.location?.coords?.latitude;
-          const longA = provider.location?.coords?.longitude;
+          const latA = provider.location?.latitude;
+          const longA = provider.location?.longitude;
 
           if (latA == null || longA == null) {
             return { ...provider, distance: Infinity };

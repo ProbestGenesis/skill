@@ -1,12 +1,8 @@
-import { PrismaClient, Provider, User } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req: Request, { userId }: Record<string, string>) {
   const page = URL.parse(req.url)?.searchParams.get('page') ? URL.parse(req.url)?.searchParams.get('page') : 1
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
- 
+
   try {
        const posts = await prisma.post.findMany({
           where: {
@@ -18,7 +14,7 @@ export async function GET(req: Request, { userId }: Record<string, string>) {
           include: {
             user: true
           },
-          take: 3 * parseInt(page)
+          take: 2 * parseInt(page)
        })
        
        console.log(posts)

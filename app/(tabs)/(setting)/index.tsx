@@ -77,7 +77,6 @@ function SettingScreen({}: Props) {
   }
 
   return (
-    <SafeAreaView className="flex-1">
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="px-2 pb-20">
           <View className="flex gap-2 py-4">
@@ -91,7 +90,7 @@ function SettingScreen({}: Props) {
               </View>
 
               {!data ? (
-                <Link asChild href={'/complete_profil'}>
+                <Link asChild href={'/(tabs)/(setting)/provider'}>
                   <Button size={'sm'} className="rounded-full">
                     <Text className="font-bold text-white">Devenir prestataire </Text>
                   </Button>
@@ -104,8 +103,8 @@ function SettingScreen({}: Props) {
             </View>
 
             <View className="flex-row gap-2">
-              <Link href="/addProfilPicture">
-                <Avatar alt="user profil" className="h-24 w-24">
+              <Link href="/profilPicture">
+                <Avatar alt="user profil" className="h-20 w-20">
                   <AvatarImage
                     //@ts-ignore
                     source={{ uri: data?.user?.image }}
@@ -130,7 +129,7 @@ function SettingScreen({}: Props) {
                       {data?.profession || 'Profession non renseignée'}
                     </Text>
                     {data && (
-                      <Badge variant="secondary">
+                      <Badge variant="secondary" className='rounded-full'>
                         <View className="flex-row gap-2">
                           <Star fill="yellow" stroke={'yellow'} size="18" />
                           <Text
@@ -291,13 +290,8 @@ function SettingScreen({}: Props) {
 
             <Card className="rounded-3xl">
               <CardHeader>
-                <CardTitle>
-                  {' '}
-                  <View className="flex-row items-center gap-2">
-                    <Text className="text-xl font-bold text-primary">
+                <CardTitle className="text-primary font-bold text-xl">
                       Confirmation de service terminé
-                    </Text>
-                  </View>
                 </CardTitle>
 
                 <CardDescription>
@@ -360,7 +354,7 @@ function SettingScreen({}: Props) {
                         <Link
                           asChild
                           href={{
-                            pathname: '/addSkills',
+                            pathname: '/skills',
                             params: { providerId: data?.id as string },
                           }}>
                           <Button size="sm" className="rounded-full">
@@ -417,7 +411,7 @@ function SettingScreen({}: Props) {
                           <Link
                             asChild
                             href={{
-                              pathname: '/addSkills',
+                              pathname: '/skills',
                               params: { providerId: data?.id as string },
                             }}>
                             <Button size={'lg'} className="rounded-full">
@@ -470,7 +464,6 @@ function SettingScreen({}: Props) {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
   );
 }
 

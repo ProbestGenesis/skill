@@ -1,11 +1,5 @@
-import { PrismaClient } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
-
+import { prisma } from "@/lib/prisma";
 export async function GET(req: Request, { userId, providerId,  skillId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
   try {
     const skills = await prisma.skills.findUnique({
       where: {
@@ -43,10 +37,6 @@ export async function POST(
   req: Request,
   { userId, providerId, skillId}: Record<string, string>
 ) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
   try {
     const { description, district, location} = await req.json();
      const user = await prisma.user.findUnique({

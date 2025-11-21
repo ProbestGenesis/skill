@@ -35,31 +35,35 @@ function index({}: Props) {
 
   const onSubmit = async (data: FormSchema) => {
     setIsLoading(true)
-    const { data: opt, error } = await authClient.signIn.phoneNumber({
+    const { error } = await authClient.signIn.phoneNumber({
       phoneNumber: data.phone, // required
       password: data.password, // required
       rememberMe: true,
     });
 
-    if (error?.status === 401) {
+    if (error?.status === 404) {
       setIsSuccess({
         type: 'signIn',
         message: 'Numéro ou mot de passe incorrect',
         status: error.status,
         error: true,
       });
+       setIsLoading(false);
     }
 
-    if (error && error?.status !== 401) {
+    if (error && error?.status !== 404) {
+      console.log(error)
       setIsSuccess({
         type: 'signIn',
-        message: "Une erreur s'est produite",
+        message: error?.message,
         status: error.status,
         error: true,
       });
+       setIsLoading(false);
     }
 
-    setIsSuccess({
+    if (!error) {
+      setIsSuccess({
       type: 'signIn',
       message: 'Vous êtes connectés',
       status: 200,
@@ -67,9 +71,11 @@ function index({}: Props) {
     });
 
     setTimeout(() => {
-      router.push('/(tabs)/(home)');
       clearSuccessState();
+      router.push('/(tabs)/(home)');
+
     }, 1500);
+    } 
   };
   return (
     <SafeAreaView className="flex-1">
@@ -82,7 +88,9 @@ function index({}: Props) {
 
           <View className="max-h-[60%] flex-auto flex-col gap-6 rounded-t-3xl bg-white p-2 py-6">
             <View className="flex-col gap-0.5">
-              <Text className="text-left text-3xl font-bold tracking-widest">SKILLMAP</Text>
+               <Text className="text-left text-3xl font-bold tracking-widest text-primary">
+                                  SKILLMAP
+                                </Text>
 
               <Text className="text-muted">La plateforme idéal pour trouver un prestataire</Text>
             </View>
@@ -97,6 +105,7 @@ function index({}: Props) {
                     <Input
                       className="rounded-lg"
                       onChangeText={onChange}
+                      keyboardType='phone-pad'
                       value={value}
                       placeholder="+228"
                     />
@@ -137,14 +146,14 @@ function index({}: Props) {
               </Button>
             </View>
             {isSuccess.status && (
-              <Text
+             <View className='flex items-center justify-center'> <Text
                 className={clsx('font-bold', {
-                  'text-green-5000': !isSuccess.error,
+                  'text-green-500': !isSuccess.error,
                   'text-destructive': isSuccess.error,
                 })}>
                 {isSuccess.message}
               </Text>
-            )}
+            </View>)}
 
             <View className="my-2 flex-row items-center justify-center text-xs">
               <Text>Vous n'avez pas de compte?</Text>

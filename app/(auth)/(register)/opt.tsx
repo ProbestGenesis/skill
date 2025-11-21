@@ -19,7 +19,6 @@ type Props = {};
 function OptScreen({}: Props) {
   const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
-  const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState<{
     type: string;
     message: string | undefined;
@@ -43,19 +42,10 @@ function OptScreen({}: Props) {
       phoneNumber: session?.user.phoneNumber as string,
     });
 
-    if (error?.status === 403) {
+    if (error) {
       setIsSuccess({
-        message: 'trop de tentative,Réeasayer plustard',
-        status: 403,
-        error: true,
-        type: 'optConfirm',
-      });
-    }
-
-    if (error?.status === 401) {
-      setIsSuccess({
-        message: 'Votre code a expiré',
-        status: 403,
+        message: error?.message,
+        status: error?.status,
         error: true,
         type: 'optConfirm',
       });
@@ -95,7 +85,6 @@ function OptScreen({}: Props) {
         });
         setTimeout(() => {
           clearSuccessState();
-          setStep(3);
         }, 1000);
       }
 
@@ -124,11 +113,11 @@ function OptScreen({}: Props) {
   const [resendDisabled, setResendDisabled] = useState(false);
 
   useEffect(() => {
-    // start disabled, enable after 9 seconds
+    // start disabled, enable after 90 seconds
     setResendDisabled(true);
     const timer = setTimeout(() => {
       setResendDisabled(false);
-    }, 9000);
+    }, 90000);
 
     return () => clearTimeout(timer);
   }, []);

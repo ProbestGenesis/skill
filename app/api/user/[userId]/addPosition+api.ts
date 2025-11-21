@@ -1,12 +1,5 @@
-import { PrismaClient } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
-
+import { prisma } from "@/lib/prisma";
 export async function POST(req: Request, { userId }: Record<string, string>) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-
   const { district, city, location } = await req.json()
   try{
     await prisma.user.update({
