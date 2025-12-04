@@ -29,7 +29,7 @@ function SubmitedPosts({ providerData }: Props) {
     return null;
   }
   return (
-    <View className="absolute bottom-0 right-0">
+    <View className="absolute bottom-0 right-1">
       <View className="flex-col items-center justify-center gap-2">
         {submitedPosts && submitedPosts.length > 0 && (
           <Text className="text-center text-xs">Vos prestataire</Text>

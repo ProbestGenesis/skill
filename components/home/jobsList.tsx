@@ -6,31 +6,26 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'expo-router';
 import { useRouter } from 'expo-router';
 
-const services = {
-  services_btp: [
+type Props = {};
+function JobsList({}: Props) {
+  const profession = [
+    'Électricien',
+    'Électronicien',
     'Maçon',
     'Charpentier',
-    'Électricien',
     'Coffreur-ferrailleur',
     'Terrassier',
-    'Peintre en bâtiment',
+    'Peintre bâtiment',
     'Poseur de revêtement',
-    'Plâtrier-staffeur',
-    'Poseur de faux plafonds',
     'Décorateur intérieur',
     'Plombier',
-    'Frigoriste / Climaticien',
+    'Frigoriste',
     'Installateur solaire',
     'Technicien domotique',
     'Menuisier (aluminium / bois / PVC)',
     'Soudeur / ferronnier',
-    'Poseur de clôtures / portails',
-    'Paysagiste',
-    'Agent VRD',
-  ],
-};
-type Props = {};
-function JobsList({}: Props) {
+    'Agent de voirie',
+  ];
   const router = useRouter();
   const [showAll, setShowAll] = useState(false);
   return (
@@ -51,7 +46,7 @@ function JobsList({}: Props) {
               exit={{ opacity: 0 }}
               transition={{ type: 'timing' }}
               className="flex-row items-center gap-4">
-              {services.services_btp.map((item, idx) => {
+              {profession.map((item, idx) => {
                 if (!showAll && idx <= 3) {
                   return (
                     <Badge key={idx.toString()}>
@@ -102,7 +97,7 @@ function JobsList({}: Props) {
               duration: 400,
             }}
             className="flex-row flex-wrap items-center gap-2">
-            {services.services_btp.map((item, idx) => (
+            {profession.map((item, idx) => (
               <Badge key={idx.toString()}>
                 <Pressable
                   onPress={() =>

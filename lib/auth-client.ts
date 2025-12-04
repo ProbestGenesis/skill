@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import { phoneNumberClient } from 'better-auth/client/plugins';
 
 export const authClient = createAuthClient({
-  baseURL: 'http://192.168.201.6:8081', // Base URL of your Better Auth backend.
+  baseURL: 'https://genesis-corp-skillmap.expo.app', // Base URL of your Better Auth backend.
   plugins: [
     expoClient({
       scheme: 'skillmap',

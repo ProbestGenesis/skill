@@ -6,7 +6,7 @@ type Props = {};
 function TabsLayout({}: Props) {
 
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
       <Tabs.Screen
         name="(home)"
         options={{

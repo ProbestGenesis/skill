@@ -1,14 +1,11 @@
-import { PrismaClient } from "~/prisma/generated/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { prisma } from "@/lib/prisma";
 import { date } from "zod";
 
 export async function POST(
   req: Request,
   { userId, serviceId }: Record<string, string>
 ) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
+
 
   const { code, id } = await req.json();
 

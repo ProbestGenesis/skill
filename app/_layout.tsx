@@ -26,8 +26,8 @@ export default function RootLayout() {
     <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
+      <Stack screenOptions={{ headerShown: false }} initialRouteName='(tabs)'>
+        <Stack.Screen name="(tabs)"/>
         <Stack.Screen name="(auth)" />
       </Stack>
         <PortalHost />

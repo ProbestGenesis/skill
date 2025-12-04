@@ -1,4 +1,4 @@
-import { ScrollView, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { ScrollView, View, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import { Controller, useForm } from 'react-hook-form';
@@ -83,14 +83,29 @@ function index({}: Props) {
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS == 'ios' ? 60 : 40}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="h-screen flex-1 flex-col bg-blue-900 ">
-          <View className="flex-1"></View>
+          className="h-screen flex-1 flex-col bg-blue-900">
+          <View className="relative flex-1">
+            <Image
+              source={require('@/assets/images/authIllu.png')}
+              resizeMode="cover"
+              className="inset-0"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: -10,
+                width: '100%',
+                height: '110%',
+              }}
+            />
+          </View>
 
           <View className="max-h-[60%] flex-auto flex-col gap-6 rounded-t-3xl bg-white p-2 py-6">
             <View className="flex-col gap-0.5">
-               <Text className="text-left text-3xl font-bold tracking-widest text-primary">
-                                  SKILLMAP
-                                </Text>
+              <Text className="text-left text-3xl font-bold tracking-widest text-primary">
+                SKILLMAP
+              </Text>
 
               <Text className="text-muted">La plateforme idéal pour trouver un prestataire</Text>
             </View>
@@ -105,7 +120,7 @@ function index({}: Props) {
                     <Input
                       className="rounded-lg"
                       onChangeText={onChange}
-                      keyboardType='phone-pad'
+                      keyboardType="phone-pad"
                       value={value}
                       placeholder="+228"
                     />
@@ -146,14 +161,17 @@ function index({}: Props) {
               </Button>
             </View>
             {isSuccess.status && (
-             <View className='flex items-center justify-center'> <Text
-                className={clsx('font-bold', {
-                  'text-green-500': !isSuccess.error,
-                  'text-destructive': isSuccess.error,
-                })}>
-                {isSuccess.message}
-              </Text>
-            </View>)}
+              <View className="flex items-center justify-center">
+                {' '}
+                <Text
+                  className={clsx('font-bold', {
+                    'text-green-500': !isSuccess.error,
+                    'text-destructive': isSuccess.error,
+                  })}>
+                  {isSuccess.message}
+                </Text>
+              </View>
+            )}
 
             <View className="my-2 flex-row items-center justify-center text-xs">
               <Text>Vous n'avez pas de compte?</Text>

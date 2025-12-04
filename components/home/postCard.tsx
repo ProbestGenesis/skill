@@ -51,7 +51,7 @@ const PostCardComponent = ({ post, setPostCard }: Props) => {
 
   if (post) {
     return (
-      <Card className="w-80 mx-1">
+      <Card className="z-50 mx-1">
         <CardHeader>
           <View className="flex-row gap-2">
             <Avatar alt="" className="h-16 w-16">
@@ -61,9 +61,6 @@ const PostCardComponent = ({ post, setPostCard }: Props) => {
 
             <View className="flex-col items-start gap-0.5">
               <Text className="font-bold leading-tight">{post?.user.name}</Text>
-              <Badge>
-                <Text className="text-white">{}</Text>
-              </Badge>
             </View>
           </View>
         </CardHeader>
@@ -118,7 +115,7 @@ const PostCardComponent = ({ post, setPostCard }: Props) => {
                 size={'sm'}
                 onPress={handleSubmit(onSubmit)}
                 disabled={sending}>
-                <Text className="text-white">Prendre en charge</Text>
+               {sending ?  <ActivityIndicator size={24} color={"white"}  />  : <Text className="text-white">Prendre en charge</Text>}
               </Button>
             )}
           </View>

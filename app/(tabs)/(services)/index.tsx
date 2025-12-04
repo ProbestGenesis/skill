@@ -29,6 +29,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { secretCode } from '@/lib/zodSchema';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { services } from '@/lib/fetching/services';
+import { userProviderData } from '@/lib/fetching/user';
 
 // --- TYPES ---
 type DataType = Service & { provider: Provider & { user: User } } & {
@@ -57,10 +58,17 @@ export default function ServiceListScreen() {
 
   // --- REACT QUERY & MUTATIONS ---
   const { data, isLoading, refetch, isRefetching } = useQuery({
-    queryKey: ['services'],
+    queryKey: ['services', session?.user?.id],
     queryFn: () => services(session?.user?.id),
     enabled: !!session,
   });
+
+
+ 
+  const { data: userData, isPending } = useQuery({
+    queryKey: ['userData', session?.user.id],
+    queryFn: () => userProviderData(session?.user.id)
+  })
 
   // Helper pour ouvrir un dialog
   const openDialog = (item: DataType, type: DialogType) => {
@@ -133,12 +141,11 @@ export default function ServiceListScreen() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['services'] }),
   });
 
-  if (!sessionPending && !session) return <Redirect href="/signIn" />;
+  if (!session) return <Redirect href="/(auth)" />;
 
   // --- RENDER ITEM (UI PURE) ---
   const renderItem = ({ item }: { item: DataType }) => {
-    const role = item.providerId === session?.user?.id ? 'Provider' : 'Customer';
-
+    const role = item.providerId === userData?.id ? 'Provider' : 'Customer';
     return (
       <Card className="mx-2 my-2">
         <CardHeader className='p'>

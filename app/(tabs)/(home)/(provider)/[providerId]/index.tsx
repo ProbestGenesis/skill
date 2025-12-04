@@ -39,16 +39,12 @@ type ProviderData = Provider & { user: User; skills: Skills[] };
 function Profil({}: Props) {
   const queryClient = useQueryClient();
   const { providerId } = useLocalSearchParams();
+  console.log()
   const router = useRouter();
 
-  async function fetchData() {
-    const res = await profildata(providerId);
-    return res;
-  }
-
   const { data, isLoading } = useQuery<ProviderData>({
-    queryKey: ['profil'],
-    queryFn: fetchData,
+    queryKey: ['profil', providerId],
+    queryFn: () => profildata(providerId)
   });
 
   return (

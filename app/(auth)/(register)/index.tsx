@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
+  Image
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Controller, useForm } from 'react-hook-form';
@@ -52,20 +53,21 @@ function RegisterPage() {
   });
 
   // Gestion de la session existante
-  useEffect(() => {
+  {/*useEffect(() => {
     if (session) {
       const user = session.user;
       if (!user.phoneNumberVerified) {
         setCurrentPhone(user.phoneNumber || '');
-        sendOtp()
         setStep(2);
       } else if (user.name && /^\d+$/.test(user.name)) {
         // Cas spécifique où le nom est encore des chiffres (pas encore configuré)
         setStep(3);
       }
     }
-  }, [pathname]);
 
+    return () =>  setStep(1)
+  }, [pathname]);
+*/}
   // Décrémentation du timer
   useEffect(() => {
     let interval: any;
@@ -86,7 +88,7 @@ function RegisterPage() {
 
     await authClient.signUp.email(
       {
-        email: `${data.phone}@skillmap.com`, // Mieux vaut utiliser un domaine fictif propre ou gérer ça côté back
+        email: `${data.phone}@skillmap.com`, 
         name: data.phone,
         password: data.password,
         phoneNumber: data.phone,
@@ -106,7 +108,7 @@ function RegisterPage() {
             setTimeout(() => {
               clearStatus();
               setStep(2);
-              setTimer(60); // Démarrer le timer
+              setTimer(60); 
               setIsLoading(false);
             }, 1000);
           }
@@ -122,19 +124,16 @@ function RegisterPage() {
     );
   };
 
-  // --- ETAPE 2 : Gestion OTP ---
-
-  // Gestion de la saisie OTP avec Focus automatique
   const handleOtpChange = (text: string, idx: number) => {
     const newOtp = [...otpInput];
     newOtp[idx] = text;
     setOtpInput(newOtp);
 
-    // Si l'utilisateur tape un chiffre, on passe au suivant
+
     if (text && idx < 3) {
       inputRefs.current[idx + 1]?.focus();
     }
-    // Si l'utilisateur efface, on reste sur le focus actuel (ou précédent si besoin)
+
     if (!text && idx > 0) {
       // Optionnel : inputRefs.current[idx - 1]?.focus();
     }
@@ -144,7 +143,6 @@ function RegisterPage() {
     clearStatus();
     // Priorité au numéro du state local, sinon celui de la session
     const phoneToSend = currentPhone || session?.user.phoneNumber;
-
     if (!phoneToSend) {
       setStatusState({ message: 'Numéro de téléphone introuvable', type: 'error' });
       return;
@@ -205,9 +203,23 @@ function RegisterPage() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1">
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
-          <View className="flex-1" />
-
-          <View className="min-h-[70%] w-full rounded-t-3xl bg-white p-2 pb-10">
+          <View className="relative flex-1">
+                      <Image
+                        source={require('@/assets/images/authIllu.png')}
+                        resizeMode="cover"
+                        className="inset-0"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: -10,
+                          width: '100%',
+                          height: '110%',
+                        }}
+                      />
+          </View>
+          <View className="min-h-[70%] w-full rounded-t-3xl bg-white p-2 py-6 pb-10">
             {step === 1 && (
               <View className="gap-6">
                 <View>
@@ -295,7 +307,7 @@ function RegisterPage() {
                   <Button
                     variant="link"
                     className="h-auto p-0"
-                    onPress={() => router.push('/(auth)/(register)')}>
+                    onPress={() => router.replace('/(auth)')}>
                     <Text className="font-bold">Se connecter</Text>
                   </Button>
                 </View>

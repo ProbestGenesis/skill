@@ -1,5 +1,5 @@
 import { authClient } from '@/lib/auth-client';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Provider, User } from '@/prisma/generated/prisma';
@@ -9,8 +9,11 @@ import LatestPosts from './latestPost';
 type Props = {
   data: Provider & { user: User }[];
   isLoading: Boolean;
+  setProviderCard: any;
+  provider: Provider & { user: User } | null;
 };
-function Recent({ data, isLoading }: Props) {
+
+function Recent({ data, isLoading, setProviderCard }: Props) {
   const { data: session, isPending } = authClient.useSession();
 
   const queryClient = useQueryClient();
@@ -23,7 +26,7 @@ function Recent({ data, isLoading }: Props) {
   }
   return (
     <View className="absolute bottom-0 right-0 p-2">
-      <View className='flex flex-col gap-2'>
+      <View className="flex flex-col gap-2">
         <View className="flex-col items-center justify-center gap-2">
           {data && data.length > 0 && <Text className="text-center text-xs">Vos prestataire</Text>}
           {isLoading ? (
@@ -36,7 +39,8 @@ function Recent({ data, isLoading }: Props) {
             <View>
               {' '}
               {Array.isArray(data) &&
-                data?.map((item) => (
+                  data?.map((item) => (
+                  <TouchableOpacity onPress={() => {setProviderCard(item)}}>
                   <View className="flex-col items-center justify-center gap-0.5">
                     <Avatar alt="profil picture" className="h-12 w-12">
                       <AvatarImage source={{ uri: item.user.image }} />
@@ -45,7 +49,7 @@ function Recent({ data, isLoading }: Props) {
 
                     <Text className="text-wrap text-xs">{item.user.name}</Text>
                   </View>
-                ))}{' '}
+                 </TouchableOpacity>))}{' '}
             </View>
           )}
         </View>

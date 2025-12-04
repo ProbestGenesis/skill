@@ -1,13 +1,11 @@
-import { PrismaClient, Provider, User } from "~/prisma/generated/client/edge";
+import { Post, User } from "@/prisma/generated/prisma";
+import { prisma } from "@/lib/prisma";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 export async function GET(
   req: Request,
   { userId, providerId }: Record<string, string>
 ) {
-  const prisma = new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  }).$extends(withAccelerate());
 
   try {
 

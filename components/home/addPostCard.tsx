@@ -31,6 +31,7 @@ import Animated, { useSharedValue } from 'react-native-reanimated';
 import { MotiView } from 'moti';
 import { Checkbox } from '@/components/ui/checkbox';
 import { profession } from '@/lib/data/professionData';
+import { usePreciseLocation } from '@/lib/geolocation';
 
 export default function AddPostCard({
   setAddPostCard,
@@ -44,16 +45,13 @@ export default function AddPostCard({
   const router = useRouter();
   const titleRef = useRef<TextInput>(null);
   const bodyRef = useRef<TextInput>(null);
-
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [success, setSuccess] = useState<{
     message?: string;
     status: number | null;
   }>({ message: '', status: null });
-
+  const { location, error: locationError } = usePreciseLocation()
   // Valeurs partagées pour les animations
   const illustrationHeight = useSharedValue(1);
   const illustrationOpacity = useSharedValue(1);
@@ -69,21 +67,6 @@ export default function AddPostCard({
     left: 12,
     right: 12,
   };
-  useEffect(() => {
-    async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    }
-
-    getCurrentLocation();
-  }, []);
-
   const {
     control,
     handleSubmit,
@@ -137,7 +120,7 @@ export default function AddPostCard({
       exit={{ opacity: 0, scale: 0 }}
       transition={{ type: 'spring', duration: 400 }}
       className="z-50">
-      <Card>
+      <Card className='mx-1'>
         <CardHeader>
           <CardTitle>Demande de service</CardTitle>
         </CardHeader>

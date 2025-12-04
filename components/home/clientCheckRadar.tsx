@@ -173,7 +173,7 @@ function ClientCheckRadar({ userData }: Props) {
 
         <AnimatePresence>
           {providerCard !== null && (
-            <View className="absolute z-50 h-screen w-full bg-black/10 px-2">
+            <View className="absolute z-50 h-[110vh] w-full bg-black/10 px-2">
               <View className="flex-1 items-center justify-center">
                 <ProviderCard provider={providerCard} setProviderCard={setProviderCard} />
               </View>
@@ -193,7 +193,14 @@ function ClientCheckRadar({ userData }: Props) {
         </View>
       </View>
 
-      {session?.user && <Recent data={recentProviders} isLoading={recentProviderIsLoading} />}
+      {session?.user && (
+        <Recent
+          data={recentProviders}
+          isLoading={recentProviderIsLoading}
+          setProviderCard={setProviderCard}
+          provider={providerCard}
+        />
+      )}
     </View>
   );
 }

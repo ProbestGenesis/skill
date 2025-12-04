@@ -6,11 +6,6 @@ type Props = {}
 function ProviderLayout({}: Props) {
   return (
     <Stack screenOptions={{ 
-       headerRight: () => (
-                    <View>
-                      <Bell size={24} />
-                    </View>
-                  ),
         headerTitle: ""
      }}>
         <Stack.Screen name="index" options={{ 

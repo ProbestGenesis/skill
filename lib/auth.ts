@@ -5,7 +5,7 @@ import { phoneNumber } from 'better-auth/plugins';
 import { prisma } from './prisma';
 
 export const auth = betterAuth({
-  trustedOrigins: ['skillmap://', 'http://192.168.201.6:8081', 'exp://192.168.201.6:8081'],
+  trustedOrigins: ['skillmap://', 'http://192.168.201.6:8081', 'exp://192.168.201.6:8081', 'https://genesis-corp-skillmap.expo.app'],
   plugins: [
     expo(),
     phoneNumber({

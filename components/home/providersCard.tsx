@@ -41,13 +41,13 @@ const ProviderCard = ({ provider, setProviderCard }: Props) => {
 
           <View className="flex-col items-start gap-0.5">
             <Text className="font-bold leading-tight">{provider?.user.name}</Text>
-            <Badge>
-              <Text className="text-white">{provider?.profession}</Text>
-            </Badge>
+            <Text className="text-primary">{provider?.profession}</Text>
+            <Badge variant={"secondary"}>
             <Text className="flex-row items-center gap-1">
               {provider?.rate}
               <Star fill={'yellow'} stroke={'yellow'} size={14} />
             </Text>
+            </Badge> 
           </View>
         </View>
       </CardHeader>
@@ -75,7 +75,7 @@ const ProviderCard = ({ provider, setProviderCard }: Props) => {
                                   pathname:
                                     '/(tabs)/(home)/(provider)/[providerId]/services/[skillId]',
                                   params: {
-                                    providerId: provider?.id,
+                                    providerId: provider?.id as string,
                                     skillId: item.id,
                                   },
                                 });
@@ -114,7 +114,7 @@ const ProviderCard = ({ provider, setProviderCard }: Props) => {
             onPress={() => {
               router.push({
                 pathname: '/(tabs)/(home)/(provider)/[providerId]',
-                params: { providerId: provider?.id },
+                params: { providerId: session?.user?.id as string},
               });
             }}>
             <Text className="text-white">Voir le profil</Text>

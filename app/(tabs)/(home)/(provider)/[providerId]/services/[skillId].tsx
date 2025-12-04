@@ -41,6 +41,7 @@ function AskService({}: Props) {
   const router = useRouter();
   const queryClient = useQueryClient()
   const { skillId, providerId } = useLocalSearchParams();
+
   const { data:session } = authClient.useSession()
   const [dialogIsOpen, setDialogIsOpen] = useState(false)
   

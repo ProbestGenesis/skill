@@ -90,7 +90,7 @@ function ProviderCheckRadar({ userData }: Props) {
         {/* Central Avatar */}
         {loadingProximityCustomers && <Ripple />}
 
-        <View className="absolute left-1/2 top-[47%] z-20 -translate-x-1/2 -translate-y-1/2 items-center">
+        <View className="absolute left-1/2 top-[47%] z-10 -translate-x-1/2 -translate-y-1/2 items-center">
           <Avatar
             alt="user-avatar"
             style={{ width: CENTRAL_AVATAR_SIZE, height: CENTRAL_AVATAR_SIZE }}>
@@ -144,7 +144,7 @@ function ProviderCheckRadar({ userData }: Props) {
                   top: '47%', 
                   width: AVATAR_SIZE,
                   height: AVATAR_SIZE,
-                  zIndex: 100 - idx, 
+                  zIndex: 10, 
                 }}>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => setPostCard(item)}>
                   <View className="flex-col items-center justify-center gap-0.5">
@@ -177,7 +177,7 @@ function ProviderCheckRadar({ userData }: Props) {
 
         <AnimatePresence>
           {postCard !== null && (
-            <View className="absolute z-50 h-screen w-full bg-black/10">
+            <View className="absolute z-50 h-[110vh] w-full bg-black/10">
               <View className="flex-1 items-center justify-center">
                 <PostCardComponent post={postCard} setPostCard={setPostCard} />
               </View>

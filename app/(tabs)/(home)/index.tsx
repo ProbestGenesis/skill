@@ -38,7 +38,7 @@ function HomePage({}: Props) {
     <SafeAreaView style={{ flex: 1 }} className="relative">
       <View style={{ flex: 1 }} className="relative">
         <View className="relative flex-1">
-          <View className="absolute right-0 top-0 w-full">
+          <View className="absolute right-1 top-0 w-full">
             {!isLoading && (
               <View>
                 {session ? (
