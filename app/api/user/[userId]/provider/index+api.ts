@@ -13,11 +13,6 @@ export async function GET(req: Request, { userId }: Record<string, string>) {
                 }
             }
         },
-        cacheStrategy: {
-            swr: 24 * 3600,
-            ttl: 24 * 3600,
-            tags: ['providerId']
-        }
      })
 
      return new Response(
